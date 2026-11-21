@@ -1,0 +1,33 @@
+.build/
+.build-linux/
+.swiftpm/
+DerivedData/
+*.xcodeproj/xcuserdata/
+*.xcworkspace/xcuserdata/
+.DS_Store
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+
+# Secrets and local config (never commit)
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p8
+*.p12
+*.jks
+*.keystore
+*.mobileprovision
+key.properties
+credentials*.json
+service-account*.json
+.claude/settings.local.json
+
+# Local build output
+build/
+
+# Private, kept out of the public repo
+/docs/product
+/docs/roadmap.md

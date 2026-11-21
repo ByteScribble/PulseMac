@@ -1,0 +1,26 @@
+name: CI
+on:
+  push:
+  pull_request:
+
+jobs:
+  linux-core:
+    # Platform-independent targets (core, persistence, coordinator) — fast feedback.
+    runs-on: ubuntu-24.04
+    container: swift:6.0-noble
+    steps:
+      - uses: actions/checkout@v4
+      - run: apt-get update -qq && apt-get install -y -qq libsqlite3-dev
+      - run: swift build --build-tests
+      - run: swift test --parallel
+
+  macos-app:
+    # Full build including macOS collectors and the SwiftUI app.
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo xcode-select -s /Applications/Xcode_15.4.app || true
+      - run: swift --version
+      - run: swift build --build-tests
+      - run: swift test --parallel
+      - run: scripts/build-app.sh debug

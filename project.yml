@@ -1,0 +1,38 @@
+# XcodeGen spec: `brew install xcodegen && xcodegen` → PulseMac.xcodeproj
+# Produces a signed, hardened-runtime .app. The SwiftPM package remains the source of truth
+# for library targets and tests.
+name: PulseMac
+options:
+  bundleIdPrefix: com.example
+  deploymentTarget:
+    macOS: "14.0"
+packages:
+  PulseMacKit:
+    path: .
+targets:
+  PulseMac:
+    type: application
+    platform: macOS
+    sources:
+      - path: Sources/PulseMacApp
+    dependencies:
+      - package: PulseMacKit
+        product: PulseCore
+      - package: PulseMacKit
+        product: PulsePersistence
+      - package: PulseMacKit
+        product: PulseMonitoring
+    info:
+      path: Resources/Info.plist
+    entitlements:
+      path: Resources/PulseMac.entitlements
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.example.PulseMac
+        ENABLE_HARDENED_RUNTIME: YES
+        SWIFT_VERSION: "5.10"
+        CODE_SIGN_STYLE: Automatic
+        MARKETING_VERSION: 0.1.0
+        CURRENT_PROJECT_VERSION: 1
+    scheme:
+      testTargets: []
